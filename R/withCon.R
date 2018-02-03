@@ -40,12 +40,12 @@ withCon <- function(..., do = {}) {
     warning('connection objects should be named')
 
   # conduct operations
-  # errors are stacked if any
-  errors <- list()
+  # error is kept and thrown after closing objects
+  err <- NULL
   ret <- tryCatch(
     eval(substitute(do), envir=cons, enclos=parent.frame()),
     error = function(e) {
-      errors <<- c(errors, list(e))
+      err <<- e
       NULL
     }
   )
@@ -53,11 +53,9 @@ withCon <- function(..., do = {}) {
   # close objects
   lapply(cons, conclose)
 
-  # if any error occurred, raise
-  if (length(errors) > 0) {
-    mess <- sapply(errors, function(e) e$message)
-    stop(sprintf('%d errors occurred: %s',
-                 length(errors), paste0(mess, collapse=', ')))
+  # if error occurred, raise now
+  if (!is.null(err)) {
+    stop(sprintf('Exception occurred operations: %s', err$message))
   }
 
   ret
