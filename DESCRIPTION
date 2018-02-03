@@ -6,7 +6,7 @@ Authors@R: c(
   person("Kota", "Mori", email = "kmori05@gmail.com", role = c("aut", "cre"))
   )
 Description: Provides functionality similar to the `with` clause in Python.
-    It automatically closes connections after operations and 
+    It automatically closes connections after a series of operations and 
     also when an exception occurs during the operations.
 License: MIT + file LICENSE
 Imports:
