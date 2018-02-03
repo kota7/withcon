@@ -1,0 +1,44 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+
+[![Travis-CI Build Status](https://travis-ci.org/kota7/withcon.svg?branch=master)](https://travis-ci.org/kota7/withcon)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/kota7/withcon?branch=master&svg=true)](https://ci.appveyor.com/project/kota7/withcon)
+
+# withcon
+
+
+`withcon` is an R package that provides functionality 
+similar to the `with` clause in Python.
+It automatically closes connections after a series of operations and 
+also when an exception occurs during the operations.
+
+Currently this package supports `connection` objects 
+(created *e.g.* by `file` and `gzfile`) and 
+`DBIConnection` objects (created by `DBI::dbConnect`).
+
+
+## Example
+
+```{r example}
+library(withcon)
+library(DBI)
+res <- withCon(conn=dbConnect(RSQLite::SQLite(), ':memory:'), do = {
+  dbWriteTable(conn, 'tbl', mtcars)
+  dbReadTable(conn, 'tbl')
+})
+head(res)
+```
