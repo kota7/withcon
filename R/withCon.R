@@ -36,7 +36,7 @@ withCon <- function(..., do = {}) {
   cons <- list(...)
   # if some of the `cons` is unnamed, warn
   # because there is no way to refer to it
-  if (any(is.na(names(cons)) | names(cons)==''))
+  if (length(cons) > 0 && any(is.na(names(cons)) | names(cons)==''))
     warning('connection objects should be named')
 
   # conduct operations

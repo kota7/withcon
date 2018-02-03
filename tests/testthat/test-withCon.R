@@ -142,3 +142,10 @@ test_that('withCon operation finds with variables in parent scope', {
 })
 
 
+context('irregular connections')
+
+test_that('no warning nor error when no connection is provided', {
+  expect_silent(
+    withCon(do = { 1 + 2 })
+  )
+})

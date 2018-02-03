@@ -1,7 +1,7 @@
 Package: withcon
 Type: Package
 Title: Autoclose Connection Objects
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
   person("Kota", "Mori", email = "kmori05@gmail.com", role = c("aut", "cre"))
   )
