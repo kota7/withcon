@@ -4,6 +4,7 @@
 \alias{conclose}
 \alias{conclose.connection}
 \alias{conclose.DBIConnection}
+\alias{conclose.default}
 \title{Generic `close` operation for connection objects}
 \usage{
 conclose(obj)
@@ -11,6 +12,8 @@ conclose(obj)
 \method{conclose}{connection}(obj)
 
 \method{conclose}{DBIConnection}(obj)
+
+\method{conclose}{default}(obj)
 }
 \arguments{
 \item{obj}{connection object}
@@ -24,4 +27,7 @@ conclose(f)  # same as `close(f)`
 
 g <- DBI::dbConnect(RSQLite::SQLite(), "bar.db")
 conclose(g)  # same as `DBI::dbDisconnect(g)`
+
+h <- 10
+conclose(h)  # nothing is done
 }

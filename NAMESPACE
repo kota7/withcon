@@ -2,5 +2,6 @@
 
 S3method(conclose,DBIConnection)
 S3method(conclose,connection)
+S3method(conclose,default)
 export(conclose)
 export(withCon)

@@ -1,16 +1,25 @@
-#' Make sure connection is closed
+#' Make sure connections are closed
 #'
-#' This function mimics Python's \code{with} clause.  Concretely,
-#' Connections objects are automatically closed:
+#' This function mimics Python's \code{with} clause, which helps
+#' to make sure that connections are closed.
+#' Concretely, this function closes connection objects when
+#' one of the followings occurred:
 #' \itemize{
-#' \item{After a series of operations are conducted}
-#' \item{Operations throw exceptions}
+#' \item{operations are completed}
+#' \item{operations throw an exception}
 #' }
 #'
+#' Internally, generic function \code{\link{conclose}} is called for
+#' each connection object after operations.
+#' Currently, \code{conclose} is defined for
+#' \code{\link[base]{connection}} and
+#' \code{\link[DBI]{DBIConnection-class}}.
+#' The function still works with unsupported connection object,
+#' for which \code{conclose} does nothing.
+#'
 #' @param ... arbitrary number of connection objects;
-#'            should be named to refer to them in the operation;
-#'            currently \code{\link[base]{connection}} and
-#'            \code{\link[DBI]{DBIConnection-class}} are supported
+#'            should be named to refer to them in the operation
+
 #' @param do operations to conduct with the connection objects
 #' @return outcome of \code{expr}
 #' @export
@@ -18,7 +27,7 @@
 #' \dontrun{
 #' # database
 #' library(DBI)
-#' withCon(conn=dbConnect(RSQLite::SQLite(), 'temp.db'), do = {
+#' withCon(conn = dbConnect(RSQLite::SQLite(), 'temp.db'), do = {
 #'   dbWriteTable(conn, 'tbl', mtcars)
 #'   dbReadTable(conn, 'tbl')
 #' })

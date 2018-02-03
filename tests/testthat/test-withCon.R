@@ -149,3 +149,12 @@ test_that('no warning nor error when no connection is provided', {
     withCon(do = { 1 + 2 })
   )
 })
+
+test_that('no warning nor error with unsupported connections', {
+  expect_silent(
+    # message is allowed, but warning or error are not
+    suppressMessages(
+      withCon(x=1, y=2, do = { x + y })
+    )
+  )
+})
