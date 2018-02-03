@@ -4,9 +4,9 @@
 withcon
 =======
 
-`withcon` is an R package that provides functionality similar to the `with` clause in Python. It automatically closes connections after a series of operations and also when an exception occurs during the operations.
+`withcon` is an R package that provides functionality similar to the `with` clause in Python; It automatically closes connections after a series of operations and also when an exception occurs during the operations.
 
-Currently this package supports `connection` objects (created *e.g.* by `file` and `gzfile`) and `DBIConnection` objects (created by `DBI::dbConnect`).
+Currently the functionality is provided for `connection` objects (created *e.g.* by `file` and `gzfile`) and `DBIConnection` objects (created by `DBI::dbConnect`).
 
 Example
 -------
@@ -14,7 +14,7 @@ Example
 ``` r
 library(withcon)
 library(DBI)
-res <- withCon(conn=dbConnect(RSQLite::SQLite(), ':memory:'), do = {
+res <- withCon(conn = dbConnect(RSQLite::SQLite(), ':memory:'), do = {
   dbWriteTable(conn, 'tbl', mtcars)
   dbReadTable(conn, 'tbl')
 })
