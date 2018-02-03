@@ -8,7 +8,9 @@
 #' }
 #'
 #' @param ... arbitrary number of connection objects;
-#'            should be named to refer to them in the operation
+#'            should be named to refer to them in the operation;
+#'            currently \code{\link[base]{connection}} and
+#'            \code{\link[DBI]{DBIConnection-class}} are supported
 #' @param do operations to conduct with the connection objects
 #' @return outcome of \code{expr}
 #' @export
