@@ -3,7 +3,7 @@ library(withcon)
 library(DBI)
 library(RSQLite)
 
-context('withCon function with files')
+context('withCon closes files')
 
 test_that('withCon closes a file object', {
   fname <- tempfile()
@@ -12,6 +12,19 @@ test_that('withCon closes a file object', {
   withCon(f = fobj, do = {})
   expect_error(isOpen(fobj), info='file closed')
   file.remove(fname)
+})
+
+test_that('wichCon read from / write to file', {
+  fn1 <- tempfile()
+  fn2 <- tempfile()
+  write(1:10, fn1)
+
+  withCon(f1=file(fn1, 'r'), f2=file(fn2, 'w'), do = {
+    x <- scan(f1, quiet=TRUE)
+    write(x^2, f2)
+  })
+  expect_equal(scan(fn2, quiet=TRUE), (1:10)^2)
+  file.remove(fn1, fn2)
 })
 
 test_that('withCon closes file object even with error', {
@@ -37,7 +50,7 @@ test_that('withCon closes multiple files', {
 })
 
 
-context('withCon with DBI connections')
+context('withCon closes DBI connections')
 
 test_that('withCon closes DBI connection', {
   con <- dbConnect(SQLite(), ':memory:')
@@ -46,11 +59,46 @@ test_that('withCon closes DBI connection', {
   expect_false(dbIsValid(con), info='file closed')
 })
 
+test_that('withCon read from / write to database', {
+  db <- tempfile()
+  con <- dbConnect(SQLite(), db)
+  dbWriteTable(con, 'foo', mtcars)
+  dbDisconnect(con)
+
+  withCon(con=dbConnect(SQLite(), db), do = {
+    x <- dbReadTable(con, 'foo')
+    dbWriteTable(con, 'bar', aggregate(mpg ~ cyl, FUN=mean, data=x))
+  })
+
+  res <- {
+    con <- dbConnect(SQLite(), db)
+    ret <- dbReadTable(con, 'bar')
+    dbDisconnect(con)
+    ret
+  }
+  ans <- aggregate(mpg ~ cyl, FUN=mean, data=mtcars)
+  expect_equal(res, ans)
+  file.remove(db)
+})
+
 test_that('withCon closes DBI connections with error', {
   con <- dbConnect(SQLite(), ':memory:')
   expect_true(dbIsValid(con), info='file open')
   expect_error(withCon(conn = con, do = { foo }), info='error operation')
   expect_false(dbIsValid(con), info='file closed even with error')
+})
+
+test_that('withCon closes multiple DBI connections', {
+  db1 <- tempfile()
+  db2 <- tempfile()
+  con1 <- dbConnect(SQLite(), db1)
+  con2 <- dbConnect(SQLite(), db2)
+  expect_true(dbIsValid(con1), info='con1 open')
+  expect_true(dbIsValid(con2), info='con2 open')
+  withCon(con1=con1, con2=con2, do = { })
+  expect_false(dbIsValid(con1), info='con1 close')
+  expect_false(dbIsValid(con2), info='con2 close')
+  file.remove(db1, db2)
 })
 
 

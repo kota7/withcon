@@ -9,7 +9,7 @@ withCon(..., do = { })
 \arguments{
 \item{...}{arbitrary number of connection objects;
 should be named to refer to them in the operation;
-currentley \code{\link[base]{connection}} and
+currently \code{\link[base]{connection}} and
 \code{\link[DBI]{DBIConnection-class}} are supported}
 
 \item{do}{operations to conduct with the connection objects}
