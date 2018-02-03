@@ -1,0 +1,19 @@
+Package: withcon
+Type: Package
+Title: Autoclose connection objects
+Version: 0.1.0
+Authors@R: c(
+  person("Kota", "Mori", email = "kmori05@gmail.com", role = c("aut", "cre"))
+  )
+Description: Provides functionality similar to the `with` clause in Python.
+    It automatically closes connections after operations and 
+    also when an exception occurs during the operations.
+License: MIT + file LICENSE
+Imports:
+    datasets,
+    DBI,
+    RSQLite
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Suggests: testthat
