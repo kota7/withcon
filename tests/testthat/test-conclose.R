@@ -26,3 +26,14 @@ test_that('conclose works with DBI connections', {
   conclose(con)
   expect_false(dbIsValid(con), info='db closed')
 })
+
+test_that('conclose works with unsupported objects', {
+  # make sure no warning or error occurrs
+  # message is allowed
+  expect_silent(
+    suppressMessages(conclose(5))
+  )
+  expect_silent(
+    suppressMessages(conclose(letters))
+  )
+})
