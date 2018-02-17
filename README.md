@@ -8,6 +8,15 @@ withcon
 
 Currently the functionality is provided for `connection` objects (created *e.g.* by `file` and `gzfile`) and `DBIConnection` objects (created by `DBI::dbConnect`).
 
+Installation
+------------
+
+Install from GitHub using the `devtools` library:
+
+``` r
+devtools::install_github('kota7/withcon')
+```
+
 Example
 -------
 

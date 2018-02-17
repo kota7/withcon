@@ -31,6 +31,14 @@ Currently the functionality is provided for `connection` objects
 `DBIConnection` objects (created by `DBI::dbConnect`).
 
 
+## Installation
+
+Install from GitHub using the `devtools` library:
+
+```r
+devtools::install_github('kota7/withcon')
+```
+
 ## Example
 
 ```{r example}
